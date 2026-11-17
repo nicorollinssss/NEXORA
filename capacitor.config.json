@@ -1,5 +1,10 @@
 {
   "appId": "com.nexora.player",
   "appName": "NEXORA",
-  "webDir": "dist"
+  "webDir": "dist",
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
 }

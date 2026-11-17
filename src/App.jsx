@@ -96,11 +96,7 @@ function App() {
                 setLoadingChannels(true)
                 setConnectionMessage('Conectando y leyendo la lista...')
                 try {
-                  const response = await fetch('/api/m3u', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({url: playlistUrl.trim()})
-                  })
+                  const response = await fetch(playlistUrl.trim())
                   if (!response.ok) throw new Error(`HTTP ${response.status}`)
                   const content = await response.text()
                   const lines = content.split(/\r?\n/)
