@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { CapacitorHttp } from '@capacitor/core'
 import { Home, Tv, Film, Clapperboard, Search, User, Play, Plus, Heart, X } from 'lucide-react'
 import './App.css'
 
@@ -96,9 +97,16 @@ function App() {
                 setLoadingChannels(true)
                 setConnectionMessage('Conectando y leyendo la lista...')
                 try {
-                  const response = await fetch(playlistUrl.trim())
-                  if (!response.ok) throw new Error(`HTTP ${response.status}`)
-                  const content = await response.text()
+                  const response = await CapacitorHttp.get({
+                    url: playlistUrl.trim(),
+                    responseType: 'text'
+                  })
+                  if (response.status < 200 || response.status >= 300) {
+                    throw new Error(`HTTP ${response.status}`)
+                  }
+                  const content = typeof response.data === 'string'
+                    ? response.data
+                    : String(response.data ?? '')
                   const lines = content.split(/\r?\n/)
                   const loaded = []
                   let info = null
